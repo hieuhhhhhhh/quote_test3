@@ -15,10 +15,12 @@ export default function MakePost() {
 
   return (
     <div>
-      <button onClick={openModal}>Make a new post</button>
-
-      {/* Render the PostModal component if the modal is open */}
-      {isModalOpen && <PostModal closeModal={closeModal} />}
+      {/* Render the PostModal component if the modal is open and the make posts button only appears if no the modal is closed */}
+      {isModalOpen ? (
+        <PostModal closeModal={closeModal} />
+      ) : (
+        <button onClick={openModal}>Make a new post</button>
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ export async function POST(req) {
   // Fetch tb 'posts'
   const { data: data1 } = await supabase
     .from("posts")
-    .select("user_id,content,likes")
+    .select("user_id,content,author,likes")
     .eq("id", post_id)
     .single();
 
@@ -35,6 +35,7 @@ export async function POST(req) {
     JSON.stringify({
       likes: data1?.likes || 0,
       content: data1?.content || "",
+      author: data1?.author || "",
       alias: data2?.alias || "",
       avatar: data2?.avatar || "",
       username: data3?.username || "",

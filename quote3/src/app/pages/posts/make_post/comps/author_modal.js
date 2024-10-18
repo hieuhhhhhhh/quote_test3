@@ -1,13 +1,16 @@
 import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import styles from "./post_modal.module.css";
 import update_FontSize_Width from "@/lib/front_end/post/dynamic_fontsize_width";
-import AuthorModal from "./author_modal";
+import PreviewModal from "./preview_post_modal";
 
-const PostModal = ({ closeModal }) => {
+const AuthorModal = ({ closeModal, closeAuthorModal, content }) => {
   const [input, setInput] = useState("");
   const [fontSize, setFontSize] = useState("");
   const [width, setWidth] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const username = useSelector((state) => state.myProfile.username);
 
   const textareaRef = useRef(null);
 
@@ -29,20 +32,22 @@ const PostModal = ({ closeModal }) => {
     update_FontSize_Width(input, setFontSize, setWidth);
   }, [input]); // Ensure effect runs when 'input' changes
 
-  const openAuthorModal = () => {
+  const openPreviewModal = () => {
+    if (input.trim() === "") {
+      setInput(username);
+    }
     setIsModalOpen(true);
   };
 
-  const closeAuthorModal = () => {
+  const closePreviewModal = () => {
     setIsModalOpen(false);
   };
 
   return (
     <div>
-      {/* Render the PostModal component if the modal is open */}
       {!isModalOpen ? (
         <div>
-          <label>Content:</label>
+          <label>Author (Optional):</label>
           <div
             className={styles.textareaContainer}
             onClick={() => textareaRef.current.focus()}
@@ -52,25 +57,26 @@ const PostModal = ({ closeModal }) => {
               className={styles.textarea}
               type="text"
               rows={1}
-              placeholder="Type here..."
+              placeholder="Write author's name here..."
               value={input}
               onChange={handleInput} // Use the handleInput function
               style={{ fontSize }} // Inline style for dynamic font size
             />
           </div>
-          <br />
-          <button onClick={openAuthorModal} disabled={!input.trim()}>Continue</button>
-          <button onClick={closeModal}>Close</button>
+          <button onClick={openPreviewModal}>Continue</button>
+          <button onClick={closeAuthorModal}>Back</button>
         </div>
       ) : (
-        <AuthorModal
+        <PreviewModal
           closeModal={closeModal}
           closeAuthorModal={closeAuthorModal}
-          content={input}
+          closePreviewModal={closePreviewModal}
+          content={content}
+          author={input}
         />
       )}
     </div>
   );
 };
 
-export default PostModal;
+export default AuthorModal;

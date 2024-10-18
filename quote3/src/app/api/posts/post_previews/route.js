@@ -16,7 +16,7 @@ export async function POST(req) {
     // Query the "posts" table using Supabase to select rows where the ID is in the given array
     const { data, error } = await supabase
       .from("posts")
-      .select("id, content")
+      .select("id, content, author")
       .in("id", ids);
 
     // Handle any errors from the query

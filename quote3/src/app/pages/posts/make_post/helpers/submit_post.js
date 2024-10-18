@@ -1,10 +1,10 @@
-async function addPost(content) {
+async function addPost(content, author) {
   try {
     const res = await fetch("/api/posts/new_post", {
       method: "Post",
       headers: { "Content-Type": "application/json" },
 
-      body: JSON.stringify({ content }),
+      body: JSON.stringify({ content, author }),
     });
 
     if (!res.ok) {
