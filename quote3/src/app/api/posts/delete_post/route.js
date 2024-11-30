@@ -4,7 +4,7 @@ import supabase from "@/lib/db/client";
 export async function POST(req) {
   try {
     const { post_id, role } = await req.json();
-    const user_id = await DecodeToken(req);
+    const user_id = await DecodeToken(req.headers.get("cookie"));
 
     // Check if token is valid
     if (!user_id) {
@@ -26,7 +26,7 @@ export async function POST(req) {
         .from("posts")
         .delete({ returning: "count" }) // Ensures row count is returned
         .eq("id", post_id);
-        
+
       error = res.error;
       count = res.count;
 

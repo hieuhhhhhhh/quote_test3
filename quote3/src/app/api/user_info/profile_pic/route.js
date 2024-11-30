@@ -7,7 +7,7 @@ import GenerateUploadAvatar from "./helpers/avatar";
 
 export async function POST(req) {
   try {
-    const userId = await DecodeToken(req);
+    const userId = await DecodeToken(req.headers.get("cookie"));
 
     if (userId === null) {
       throw new Response("No token or invalid token", {

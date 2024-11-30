@@ -3,10 +3,10 @@
 import jwt from "jsonwebtoken";
 import { parse } from "cookie";
 
-export async function DecodeToken(req) {
+export async function DecodeToken(cookieHeader) {
   // Parse cookies from the request
   try {
-    const cookieHeader = req.headers.get("cookie");
+    //const cookieHeader = req.headers.get("cookie");
     const cookies = parse(cookieHeader || "");
     const token = cookies.session_token;
 

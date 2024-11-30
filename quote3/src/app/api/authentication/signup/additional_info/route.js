@@ -4,7 +4,7 @@ import supabase from "@/lib/db/client";
 export async function POST(req) {
   try {
     const { alias, bio } = await req.json(); // Parsing the body correctly
-    const userid = await DecodeToken(req);
+    const userid = await DecodeToken(req.headers.get("cookie"));
 
     if (userid === null) {
       throw new Response("No token got or Invalid token", {
@@ -13,9 +13,7 @@ export async function POST(req) {
     }
 
     // Use upsert to handle both add and update
-    const res = await supabase
-    .from("users_info")
-    .upsert(
+    const res = await supabase.from("users_info").upsert(
       { user_id: userid, alias: alias, biography: bio }, // Data to insert or update
       { onConflict: "user_id" } // Conflict resolution based on user_id
     );

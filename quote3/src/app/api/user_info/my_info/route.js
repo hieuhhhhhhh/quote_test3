@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import supabase from "@/lib/db/client";
 
 export async function GET(req) {
-  const userId = await DecodeToken(req);
+  const userId = await DecodeToken(req.headers.get("cookie"));
 
   if (userId === null) {
     return new Response(

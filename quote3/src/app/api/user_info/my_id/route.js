@@ -5,7 +5,7 @@ import { setTokenCookie } from "../../authentication/login/helpers/set_token_coo
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
-  const userId = await DecodeToken(req);
+  const userId = await DecodeToken(req.headers.get("cookie"));
 
   if (userId === null) {
     return NextResponse.json(

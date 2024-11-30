@@ -4,7 +4,7 @@ import supabase from "@/lib/db/client";
 export async function POST(req) {
   try {
     const { comment, parent_id } = await req.json();
-    const commenter_id = await DecodeToken(req);
+    const commenter_id = await DecodeToken(req.headers.get("cookie"));
 
     if (commenter_id === null) {
       throw new Response("No token got or Invalid token", {

@@ -4,7 +4,7 @@ import supabase from "@/lib/db/client";
 export async function POST(req) {
   const [{ post_id }, user_id] = await Promise.all([
     req.json(),
-    DecodeToken(req),
+    DecodeToken(req.headers.get("cookie")),
   ]);
 
   if (user_id === null) {

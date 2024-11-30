@@ -5,7 +5,7 @@ import supabase from "@/lib/db/client";
 export async function POST(req) {
   try {
     // Decode the token to get the userId
-    const userId = await DecodeToken(req);
+    const userId = await DecodeToken(req.headers.get("cookie"));
 
     if (!userId) {
       return new Response(
@@ -21,7 +21,7 @@ export async function POST(req) {
     // Update the 'ads' value in the 'users_info' table for the given userId
     const { error: updateError } = await supabase
       .from("users_info")
-      .update({ads})
+      .update({ ads })
       .eq("user_id", userId);
 
     if (updateError) {
